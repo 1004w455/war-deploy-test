@@ -7,11 +7,13 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-public class DemoApplication {
+@RestController
+public class DemoApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -24,15 +26,10 @@ public class DemoApplication {
 		this.startTime = LocalDateTime.now();
 	}
 
-	@RestController
-	public class Controller {
-		@GetMapping("/")
-		public String home() {
-			System.out.println("호출됨: " +
-					LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")));
-			return String.format("war deploy success (서버시작시간: %s)"
-					, startTime.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")));
-		}
+	@GetMapping("/")
+	public String home() {
+		System.out.println("호출됨: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")));
+		return String.format("war deploy success (서버시작시간: %s)", startTime.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")));
 	}
 
 }
